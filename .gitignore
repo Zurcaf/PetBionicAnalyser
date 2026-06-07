@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# build artefacts (recriados por make_desktop_app.sh)
+*.app/
+
+# estado de runtime / por-utilizador (auto-gerado pela app)
+calib_runs.json
+imu_calibration_R.json
+model_orientation.json
