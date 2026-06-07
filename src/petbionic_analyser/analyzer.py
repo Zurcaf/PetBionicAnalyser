@@ -43,8 +43,10 @@ from PyQt6.QtGui import QFont, QPalette, QColor
 _BASE = Path(os.environ.get("PETBIONIC_ROOT", Path.home() / "Desktop" / "petBionic"))
 TESTDATA_DIR  = _BASE / "TestData"
 DOWNLOADS_DIR = Path.home() / "Downloads"
-_CALIB_FILE   = Path(__file__).parent / "imu_calibration_R.json"
-_RUNS_FILE    = Path(__file__).parent / "calib_runs.json"
+# estado de runtime guardado na raiz do repo (src/petbionic_analyser/ → parents[2])
+_STATE_DIR    = Path(__file__).resolve().parents[2]
+_CALIB_FILE   = _STATE_DIR / "imu_calibration_R.json"
+_RUNS_FILE    = _STATE_DIR / "calib_runs.json"
 
 
 def _save_runs(paths: dict[str, str | None], test: str | None) -> None:
@@ -91,7 +93,7 @@ def _load_calib() -> tuple[np.ndarray, dict[str, int]] | tuple[None, None]:
 # Guardada como nº de voltas de 90° em cada eixo (x, y, z) → reorientar o taco
 # para o pé/cabeça apontarem no sentido certo. Independente da calibração R.
 
-_MODEL_FILE = Path(__file__).parent / "model_orientation.json"
+_MODEL_FILE = _STATE_DIR / "model_orientation.json"
 
 
 def _turns_to_R(turns: dict[str, int]) -> np.ndarray:

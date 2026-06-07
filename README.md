@@ -1,35 +1,56 @@
-# petBionic — Ferramentas de Análise de Dados
+# PetBionic Analyser
 
-Ferramentas Python para limpeza e visualização dos CSVs gerados pela prótese canina.
-
----
-
-## Estrutura da pasta
-
-```
-analysis/
-├── csv_cleaner.py      — limpa CSVs com bugs do firmware antigo
-├── csv_analyzer.py     — visualizador interactivo com gráficos e modelo 3D
-├── requirements.txt    — dependências Python
-├── run_analysis.sh     — launcher (cria venv automaticamente na 1.ª execução)
-├── .venv/              — ambiente virtual Python (criado pelo launcher)
-└── scripts/            — scripts auxiliares (BLE sync, etc.)
-```
+Ferramentas Python para limpeza e visualização dos CSVs gerados pela prótese
+canina petBionic (GUI Qt com gráficos, features de marcha e modelo 3D).
 
 ---
 
-## Instalação rápida
+## Estrutura do repositório (layout `src`)
 
-```bash
-# Na 1.ª execução, o launcher cria o venv e instala tudo automaticamente:
-bash analysis/run_analysis.sh
+```
+PetBionicAnalyser/
+├── pyproject.toml                  — metadados do pacote + entry point
+├── requirements.txt                — dependências (também no pyproject)
+├── run.sh                          — launcher (cria venv fora do iCloud na 1.ª vez)
+├── README.md
+├── assets/                         — recursos
+│   ├── app_icon.png                — ícone da app (cão + prótese)
+│   └── app_icon_orig.png
+├── scripts/                        — utilitários
+│   ├── make_desktop_app.sh         — cria a .app clicável no Desktop
+│   ├── make_feature_figures.py     — gera as figuras da tese
+│   └── ble_time_sync_test.py
+└── src/
+    └── petbionic_analyser/         — o pacote
+        ├── __init__.py
+        ├── __main__.py             — `python -m petbionic_analyser`
+        ├── analyzer.py             — GUI principal (tabs, 3D, calibração)
+        └── cleaner.py              — limpeza de CSVs do firmware antigo
 ```
 
-Ou manualmente:
+Estado de runtime (gerado, fora do controlo de versões): `imu_calibration_R.json`,
+`model_orientation.json`, `calib_runs.json` na raiz; e a `.app` construída.
+
+---
+
+## Instalação / arranque
+
 ```bash
-cd analysis/
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
+# Na 1.ª execução cria o venv (em ~/Library/Caches, fora do iCloud) e instala tudo:
+bash run.sh
+
+# Com um ficheiro pré-carregado:
+bash run.sh /caminho/para/run.csv
+```
+
+App clicável no Desktop (com ícone):
+```bash
+bash scripts/make_desktop_app.sh        # cria "PetBionic Analyser.app" + atalho no Desktop
+```
+
+Execução directa do pacote (dev):
+```bash
+PYTHONPATH=src python -m petbionic_analyser
 ```
 
 ---
@@ -54,22 +75,22 @@ factor = 18 570 counts/kg (kHx711CalibrationFactor no firmware)
 
 ```bash
 # Processa toda a pasta TestData (cria ficheiros *_cleaned ao lado dos originais):
-.venv/bin/python csv_cleaner.py
+PYTHONPATH=src python -m petbionic_analyser.cleaner
 
 # Pasta ou ficheiro específico:
-.venv/bin/python csv_cleaner.py TestData/Round1dia28
+PYTHONPATH=src python -m petbionic_analyser.cleaner TestData/Round1dia28
 
 # Ajustar calibração:
-.venv/bin/python csv_cleaner.py --offset -15500 --factor 18570
+PYTHONPATH=src python -m petbionic_analyser.cleaner --offset -15500 --factor 18570
 
 # Substituir ficheiros originais (tem backup!):
-.venv/bin/python csv_cleaner.py --in-place
+PYTHONPATH=src python -m petbionic_analyser.cleaner --in-place
 
 # Saída numa pasta separada:
-.venv/bin/python csv_cleaner.py --output-dir TestData/cleaned
+PYTHONPATH=src python -m petbionic_analyser.cleaner --output-dir TestData/cleaned
 
 # Ajuda completa:
-.venv/bin/python csv_cleaner.py --help
+PYTHONPATH=src python -m petbionic_analyser.cleaner --help
 ```
 
 ### Formato dos ficheiros de saída
@@ -85,16 +106,16 @@ Quando dois runs partilham o mesmo minuto, o segundo inclui os segundos: `HHhMMm
 
 ---
 
-## 2. `csv_analyzer.py` — Visualizador Interactivo
+## 2. App — Visualizador Interactivo (`petbionic_analyser`)
 
 Interface gráfica Qt com 6 tabs e browser de ficheiros lateral.
 
 ```bash
 # Lança o visualizador (venv já criado):
-bash run_analysis.sh
+bash run.sh
 
 # Com ficheiro pré-carregado:
-bash run_analysis.sh TestData/Round1dia28_cleaned/AndamentoTestes28/20260528_12h32_run01.csv
+bash run.sh TestData/Round1dia28_cleaned/AndamentoTestes28/20260528_12h32_run01.csv
 ```
 
 ### Browser de ficheiros (painel esquerdo)

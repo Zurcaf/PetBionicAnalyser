@@ -32,6 +32,9 @@ if [ -n "$QT_PLUGINS" ] && [ -d "$QT_PLUGINS/platforms" ]; then
   export QT_PLUGIN_PATH="$QT_PLUGINS"
 fi
 
+# corre o pacote a partir de src/ (layout standard)
+export PYTHONPATH="$SCRIPT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"
+
 # exec -a define o argv[0] → o macOS mostra "PetBionic Analyser" na barra de
 # menu (em vez de "Python").
-exec -a "PetBionic Analyser" "$VENV/bin/python" "$SCRIPT_DIR/csv_analyzer.py" "$@"
+exec -a "PetBionic Analyser" "$VENV/bin/python" -m petbionic_analyser "$@"

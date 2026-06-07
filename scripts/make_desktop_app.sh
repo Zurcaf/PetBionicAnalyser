@@ -18,9 +18,10 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RUN_SH="$SCRIPT_DIR/run_analysis.sh"
-ICON_SRC="$SCRIPT_DIR/app_icon.png"
-APP="$SCRIPT_DIR/PetBionic Analyser.app"          # app real (fora do iCloud)
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+RUN_SH="$REPO_ROOT/run.sh"
+ICON_SRC="$REPO_ROOT/assets/app_icon.png"
+APP="$REPO_ROOT/PetBionic Analyser.app"            # app real (fora do iCloud)
 LINK="$HOME/Desktop/PetBionic Analyser.app"       # atalho no Desktop
 EXE_DIR="$APP/Contents/MacOS"
 RES_DIR="$APP/Contents/Resources"

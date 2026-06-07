@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "petbionic-analyser"
+version = "1.0.0"
+description = "Interactive viewer and analyser for the petBionic canine prosthesis CSV data"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Afonso Cruz" }]
+dependencies = [
+    "pandas>=2.0",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "PyQt6==6.11.0",
+    "PyQt6-Qt6==6.11.0",
+    'pyobjc-framework-Cocoa; sys_platform == "darwin"',
+]
+
+[project.scripts]
+petbionic-analyser = "petbionic_analyser.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
