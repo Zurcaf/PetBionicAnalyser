@@ -24,7 +24,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from petbionic_analyser.analyzer import compute_gait_features  # noqa: E402
+from petbionic_analyser.gait import compute_gait_features  # noqa: E402
 
 # ── caminhos ────────────────────────────────────────────────────────────────
 # A app vive em ~/Developer/PetBionic Analyser, mas as figuras vão para a tese e

@@ -1,0 +1,1 @@
+"""Separadores (tabs) da interface."""
